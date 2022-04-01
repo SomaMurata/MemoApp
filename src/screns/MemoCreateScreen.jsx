@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    textAlignVertical: 'top',
+    // textAlignVertical: 'top',
     fontSize: 16,
     lineHeight: 24,
   },
