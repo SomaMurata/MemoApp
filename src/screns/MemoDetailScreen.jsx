@@ -3,13 +3,12 @@ import {
   View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
-export default function MemoDetailScren() {
+export default function MemoDetailScren(props) {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
-      <AppBar />
       <View style={styles.memoheader}>
         <Text style={styles.memotitle}>買い物リスト</Text>
         {/* eslint-disable-next-line */}
@@ -20,7 +19,13 @@ export default function MemoDetailScren() {
           親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰
         </Text>
       </ScrollView>
-      <CircleButton style={{ top: 160, bottom: 'auto' }} name="edit-2" />
+      <CircleButton
+        style={{ top: 40, bottom: 'auto' }}
+        name="edit-2"
+        onPress={() => {
+          navigation.navigate('MemoEdit');
+        }}
+      />
     </View>
   );
 }
