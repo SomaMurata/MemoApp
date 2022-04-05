@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import MemoList from '../components/MemoList';
 import CircleButton from '../components/CircleButton';
+import LogOutButton from '../components/LogOutButton';
 
 export default function MemoListScren(props) {
   const { navigation } = props;
+  useEffect(() => {
+    navigation.setOptions({
+      /* eslint-disable-next-line */
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
   return (
     <View style={styles.container}>
       <MemoList />
