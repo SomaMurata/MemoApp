@@ -1,22 +1,45 @@
-import React from 'react';
-import {
-  View, Text, StyleSheet, ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { shape, string } from 'prop-types';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButton';
+import { dateToString } from '../utils';
 
 export default function MemoDetailScren(props) {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { id } = route.params;
+  console.log(id);
+  const [memo, setMemo] = useState(null);
+
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    let unsubscribe = () => {};
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      unsubscribe = ref.onSnapshot((doc) => {
+        console.log(doc.id, doc.data());
+        const data = doc.data();
+        setMemo({
+          id: doc.id,
+          bodyText: data.bodyText,
+          updatedAt: data.updatedAt.toDate(),
+        });
+      });
+    }
+    return unsubscribe;
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.memoheader}>
-        <Text style={styles.memotitle}>買い物リスト</Text>
+        <Text style={styles.memotitle} numberOfLines={1}>{memo && memo.bodyText}</Text>
         {/* eslint-disable-next-line */}
-        <Text style={styles.memodate}>2022年3月30日　10:00</Text>
+        <Text style={styles.memodate}>{memo && dateToString(memo.updatedAt)}</Text>
       </View>
       <ScrollView style={styles.memobody}>
         <Text style={styles.memotext}>
-          親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰
+          {memo && memo.bodyText}
         </Text>
       </ScrollView>
       <CircleButton
@@ -29,6 +52,12 @@ export default function MemoDetailScren(props) {
     </View>
   );
 }
+
+MemoDetailScren.propTypes = {
+  route: shape({
+    params: shape({ id: string }),
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {
