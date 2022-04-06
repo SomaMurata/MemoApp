@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { shape, string } from 'prop-types';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View, Text, StyleSheet, ScrollView,
+} from 'react-native';
 import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButton';
@@ -46,7 +48,7 @@ export default function MemoDetailScren(props) {
         style={{ top: 40, bottom: 'auto' }}
         name="edit-2"
         onPress={() => {
-          navigation.navigate('MemoEdit');
+          navigation.navigate('MemoEdit', { id: memo.id, bodyText: memo.bodyText });
         }}
       />
     </View>
