@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -22,6 +23,7 @@ if (firebase.app.length === 0) {
 }
 
 const Stack = createStackNavigator();
+LogBox.ignoreLogs(['AsyncStorage']);
 
 // HTML的な記述
 export default function App() {
