@@ -10,6 +10,7 @@ import {
 import firebase from 'firebase';
 
 import Button from '../components/button';
+import { translateError } from '../utils';
 
 import { firebaseConfig } from '../../env';
 
@@ -34,7 +35,8 @@ export default function SignUpscreen(props) {
       })
       .catch((error) => {
         console.log(error.code, error.message);
-        Alert.alert(error.code);
+        const errorMsg = translateError(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       });
   }
   return (
